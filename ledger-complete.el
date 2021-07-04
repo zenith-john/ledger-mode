@@ -241,10 +241,10 @@ Looks in `ledger-accounts-file' if set, otherwise the current buffer."
                     (if month
                         (encode-time 0 0 0 day month last-year)
                       (encode-time 0 0 0 day last-month last-month-year)))))
-    (lambda (_string _predicate _all)
-      (concat (ledger-format-date
-               (cl-find-if (lambda (date) (not (time-less-p now date))) dates))
-              (and (= (point) (line-end-position)) " ")))))
+    (lambda (&optional _string _predicate _all)
+      (list (concat (ledger-format-date
+                     (cl-find-if (lambda (date) (not (time-less-p now date))) dates))
+                    (and (= (point) (line-end-position)) " "))))))
 
 (defun ledger-complete-effective-date
     (tx-year-string tx-month-string tx-day-string
@@ -265,10 +265,10 @@ Looks in `ledger-accounts-file' if set, otherwise the current buffer."
                     (if month
                         (encode-time 0 0 0 day month next-year)
                       (encode-time 0 0 0 day next-month next-month-year)))))
-    (lambda (_string _predicate _all)
-      (concat (ledger-format-date
-               (cl-find-if (lambda (date) (not (time-less-p date tx-date))) dates))
-              (and (= (point) (line-end-position)) " ")))))
+    (lambda (&optional _string _predicate _all)
+      (list (concat (ledger-format-date
+                     (cl-find-if (lambda (date) (not (time-less-p date tx-date))) dates))
+                    (and (= (point) (line-end-position)) " "))))))
 
 (defun ledger-complete-at-point ()
   "Do appropriate completion for the thing at point."
